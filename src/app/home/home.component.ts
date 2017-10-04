@@ -8,7 +8,7 @@ import {Employee} from '../models/employee.model';
 })
 export class HomeComponent {
   languages=["Nodejs","AngularJs","ReactJs"];
-  model = new Employee('Even','Smith');
+  model = new Employee('','Smith',false,'female','Nodejs');
 
 
   firstNameToUpperCase(value:string){
@@ -18,3 +18,6 @@ export class HomeComponent {
       this.model.firstName=value
   }
 }
+
+/*ng-untouched   ng-pristine     ng-valid
+ng-touched     ng-dirty        ng-invalid*/
