@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {Employee} from '../models/employee.model';
+import {FormPoster} from '../services/form-poster.service';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'home',
@@ -7,17 +9,34 @@ import {Employee} from '../models/employee.model';
   templateUrl: './home.component.html'
 })
 export class HomeComponent {
-  languages=["Nodejs","AngularJs","ReactJs"];
-  model = new Employee('','Smith',false,'female','Nodejs');
+  languages =['English','Spanish','Other'];
+  model=new Employee('', 'Bajpai',true,"male","default");
+  hasPrimaryLanguageError=false;
 
+  constructor(private formPoster: FormPoster){
 
-  firstNameToUpperCase(value:string){
-    if(value.length>0)
-      this.model.firstName=value.charAt(0).toUpperCase()+ value.slice(1);
-    else
-      this.model.firstName=value
   }
-}
 
-/*ng-untouched   ng-pristine     ng-valid
-ng-touched     ng-dirty        ng-invalid*/
+  submitForm(form : NgForm){
+    this.formPoster.postEmployeeForm(this.model)
+      .subscribe(
+        data=> console.log('success:', data),
+        err => console.log('error: ',err)
+      )
+    console.log(this.model);
+  }
+
+  validateLang(event){
+    console.log('lang: '+this.model.codeLanguage)
+    if(this.model.codeLanguage === 'default')
+      this.hasPrimaryLanguageError = true;
+    else
+      this.hasPrimaryLanguageError = false;
+  }
+  /*firstNameToUpperCase(value: string){
+    if(value.length > 0)
+      this.model.firstName= value.charAt(0).toUpperCase()+ value.slice(1);
+    else
+      this.model.firstName = value;
+  }*/
+}

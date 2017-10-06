@@ -1,6 +1,6 @@
 <div class="container">
     <h3>Angular4 Forms</h3>
-    <form #form ="ngForm" novalidate>
+    <form #form ="ngForm" (submit)="submitForm(form)" novalidate>
         <div class="form-group" [class.has-error]="firstName.invalid">
             <label class="control-label" for="firstName">First Name</label>
             <input id="firstName" #firstName="ngModel" maxlength="3" type="text" required placeholder="Name" name="firstName" 
@@ -30,9 +30,11 @@
                 <input type="radio" name="gender" value="male" [(ngModel)]="model.gender">Male
             </label>
         </div>
-        <div class="form-group">
+        <div class="form-group" [class.has-error]="hasPrimaryLanguageError">
             <label>Primary Language</label>
-            <select class="form-control"  name="codeLanguage" [(ngModel)]="model.codeLanguage">
+            <select class="form-control"  name="codeLanguage" [(ngModel)]="model.codeLanguage"
+            (blur)="validateLang($event)">
+                <option value="default">Select The Lang...</option>
                 <option *ngFor="let lang of languages">{{lang}}</option>
             </select>
         </div>
